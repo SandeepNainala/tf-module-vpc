@@ -31,10 +31,15 @@ resource "aws_eip" "ngw" {
 }
 
 #resource "aws_nat_gateway" "ngw" {
-#  allocation_id = aws_eip.nat.id
+#  count = length(var.subnets["public"].cidr_block)
+#  allocation_id = aws_eip.ngw[count.index].id
 #  subnet_id     = aws_subnet.public.id
 #
 #  tags = {
 #    Name = "gw NAT"
 #  }
 #}
+
+output "subnet_ids" {
+  value = module.subnets
+}
